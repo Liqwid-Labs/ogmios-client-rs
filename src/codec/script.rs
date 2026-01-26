@@ -1,7 +1,7 @@
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
 
-use super::codec::{ExecutionUnits, Language, RedeemerPointer, TxOutputPointer};
+use super::{ExecutionUnits, Language, RedeemerPointer, TxOutputPointer};
 use crate::define_ogmios_error;
 
 #[derive(Debug, Clone, Deserialize, Serialize)]

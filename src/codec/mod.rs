@@ -5,11 +5,21 @@ use std::str::FromStr as _;
 use num::BigRational;
 use serde::{Deserialize, Deserializer, Serialize};
 
+mod script;
+pub use script::*;
+
 #[derive(Debug, Clone, Serialize)]
 pub struct RpcRequest<T: Serialize> {
     pub jsonrpc: String,
     pub method: String,
     pub params: Option<T>,
+    pub id: Option<Id>,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Deserialize)]
+pub struct RpcResponseIdentifier {
+    pub method: String,
+    pub id: Option<Id>,
 }
 
 #[derive(Debug, Clone, Deserialize)]
@@ -44,6 +54,16 @@ pub struct RpcError<T> {
     pub error: T,
     #[serde(default)]
     pub id: Option<serde_json::Value>,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Hash, Deserialize, Serialize)]
+#[serde(transparent)]
+pub struct Id(String);
+
+impl Id {
+    pub fn new() -> Self {
+        Self(uuid::Uuid::new_v4().to_string())
+    }
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]

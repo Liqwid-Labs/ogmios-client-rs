@@ -1,7 +1,6 @@
 use serde::{Deserialize, Serialize};
 
-use super::codec::AdaBalance;
-use crate::codec::{Era, ExecutionUnits};
+use crate::codec::{AdaBalance, Era, ExecutionUnits};
 use crate::define_ogmios_error;
 
 #[derive(Debug, Clone, Deserialize)]

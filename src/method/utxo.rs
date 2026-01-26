@@ -1,8 +1,6 @@
 use serde::{Deserialize, Serialize};
 
-use super::codec::{Balance, Era, TxOutputPointer, TxPointer};
-use super::script::Script;
-use super::*;
+use crate::codec::{Balance, Era, RpcRequest, RpcResponse, Script, TxOutputPointer, TxPointer};
 use crate::define_ogmios_error;
 
 #[derive(Debug, Clone, Serialize)]

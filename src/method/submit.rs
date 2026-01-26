@@ -3,13 +3,12 @@ use std::collections::HashMap;
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
 
-use super::codec::{
-    AdaBalance, AdaBalanceDelta, Balance, CredentialOrigin, ExecutionUnits, Language,
-    RedeemerPointer, StakePoolId, TxCbor, TxId, TxOutput, TxOutputPointer, ValidityInterval,
-};
-use super::script::ScriptPurpose;
 use super::utxo::Utxo;
-use crate::codec::{Era, InputSource, NumberOfBytes, ProtocolVersion};
+use crate::codec::{
+    AdaBalance, AdaBalanceDelta, Balance, CredentialOrigin, Era, ExecutionUnits, InputSource,
+    Language, NumberOfBytes, ProtocolVersion, RedeemerPointer, ScriptPurpose, StakePoolId, TxCbor,
+    TxId, TxOutput, TxOutputPointer, ValidityInterval,
+};
 use crate::define_ogmios_error;
 
 // -----------

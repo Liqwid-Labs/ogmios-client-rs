@@ -1,7 +1,6 @@
 use serde::{Deserialize, Serialize};
 
-use super::codec::*;
-use super::script::ScriptError;
+use crate::codec::*;
 use crate::define_ogmios_error;
 
 // -----------
