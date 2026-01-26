@@ -14,6 +14,7 @@ use tokio_tungstenite::{connect_async, MaybeTlsStream, WebSocketStream};
 
 pub mod codec;
 pub mod evaluate;
+pub mod mempool;
 pub mod pparams;
 pub mod script;
 pub mod submit;

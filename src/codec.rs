@@ -53,15 +53,7 @@ pub struct TxCbor {
 }
 
 #[derive(Debug, Clone, Deserialize)]
-#[serde(untagged)]
-pub enum MempoolTransaction {
-    Full(TxCbor),
-    Tx(Transaction),
-    IdOnly(TxPointer),
-}
-
-#[derive(Debug, Clone, Deserialize)]
-pub struct Transaction {
+pub struct Tx {
     pub id: String,
     pub inputs: Vec<TxOutputPointer>,
     pub outputs: Vec<TxOutput>,
@@ -70,11 +62,6 @@ pub struct Transaction {
     pub fee: Balance,
     pub network: String,
     // Add other fields as needed, making them optional or using default if they might be missing
-}
-
-#[derive(Debug, Clone, Deserialize)]
-pub struct NextTransactionResult {
-    pub transaction: Option<MempoolTransaction>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -456,6 +443,7 @@ macro_rules! define_ogmios_error {
                     data: Option<serde_json::Value>,
                 }
 
+                #[allow(dead_code)]
                 fn snake_to_camel(s: &str) -> String {
                     let mut result = String::with_capacity(s.len());
                     let mut capitalize_next = false;
@@ -472,6 +460,7 @@ macro_rules! define_ogmios_error {
                     result
                 }
 
+                #[allow(dead_code)]
                 fn get_field<T, E>(data: &serde_json::Value, snake_case_name: &str) -> Result<T, E>
                 where
                     T: serde::de::DeserializeOwned,
