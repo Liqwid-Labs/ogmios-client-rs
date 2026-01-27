@@ -79,9 +79,12 @@ pub struct Tx {
     pub outputs: Vec<TxOutput>,
     #[serde(default)]
     pub collateral: Vec<TxOutputPointer>,
+    pub collateral_return: Vec<TxOutput>,
     pub fee: Balance,
     pub network: String,
-    // Add other fields as needed, making them optional or using default if they might be missing
+    /// The raw serialized (CBOR) transaction in hex, as found on-chain
+    /// Use --include-transaction-cbor on Ogmios to always include this field
+    pub cbor: Option<String>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
