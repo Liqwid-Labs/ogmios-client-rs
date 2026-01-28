@@ -1,14 +1,14 @@
 use std::fmt;
 
-use anyhow::{bail, Context};
+use anyhow::{Context, bail};
 use futures_util::stream::{SplitSink, SplitStream};
 use futures_util::{SinkExt, StreamExt};
 pub use reqwest::Url;
-use serde::de::DeserializeOwned;
 use serde::Serialize;
+use serde::de::DeserializeOwned;
 use tokio::net::TcpStream;
 use tokio_tungstenite::tungstenite::protocol::Message;
-use tokio_tungstenite::{connect_async, MaybeTlsStream, WebSocketStream};
+use tokio_tungstenite::{MaybeTlsStream, WebSocketStream, connect_async};
 
 use crate::codec::{Id, RpcRequest, RpcResponseIdentifier};
 use crate::method::mempool::{AcquireMempoolResult, NextTransactionResponse};
@@ -49,7 +49,7 @@ impl OgmiosWsClient {
             Some(p) => serde_json::to_value(p)?,
             None => serde_json::Value::Object(serde_json::Map::new()),
         };
-        let id = Id::new();
+        let id = Id::default();
         let req = RpcRequest {
             jsonrpc: "2.0".to_string(),
             method: method.to_string(),

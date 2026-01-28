@@ -60,8 +60,8 @@ pub struct RpcError<T> {
 #[serde(transparent)]
 pub struct Id(String);
 
-impl Id {
-    pub fn new() -> Self {
+impl Default for Id {
+    fn default() -> Self {
         Self(uuid::Uuid::new_v4().to_string())
     }
 }
@@ -560,7 +560,7 @@ macro_rules! define_ogmios_error {
 #[cfg(test)]
 mod tests {
     use serde::Deserialize;
-    use serde_json::{json, Value};
+    use serde_json::{Value, json};
 
     #[derive(Debug, Clone, PartialEq, Deserialize)]
     #[serde(rename_all = "camelCase")]

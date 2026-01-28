@@ -2,8 +2,8 @@ use std::fmt;
 
 use anyhow::Context;
 pub use reqwest::Url;
-use serde::de::DeserializeOwned;
 use serde::Serialize;
+use serde::de::DeserializeOwned;
 
 use crate::codec::{RpcRequest, RpcResponse, TxCbor};
 use crate::method::evaluate::{EvaluateRequestParams, Evaluation, EvaluationError};
