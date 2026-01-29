@@ -10,6 +10,8 @@ pub struct ProtocolParams {
     pub min_fee_coefficient: u64,
     /// Base cost for all transactions
     pub min_fee_constant: AdaBalance,
+    /// Deposit required for stake credential registration
+    pub stake_credential_deposit: AdaBalance,
     pub plutus_cost_models: CostModels,
     /// Multiplied by the size of the reference script
     /// This number gets multiplied every `range` bytes by the `multiplier`
@@ -103,5 +105,20 @@ mod tests {
         assert!(cost_models.plutus_v1.is_some());
         assert!(cost_models.plutus_v2.is_some());
         assert!(cost_models.plutus_v3.is_some());
+    }
+
+    #[test]
+    fn test_protocol_params_deserialization() {
+        let response = std::fs::read_to_string("tests/data/ogmios_protocol_params.json")
+            .expect("ogmios response");
+        let json: serde_json::Value =
+            serde_json::from_str(&response).expect("ogmios response");
+        let result = json
+            .get("result")
+            .cloned()
+            .expect("missing result");
+        let params: ProtocolParams =
+            serde_json::from_value(result).expect("protocol params");
+        assert!(params.stake_credential_deposit.lovelace > 0);
     }
 }
