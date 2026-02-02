@@ -26,8 +26,10 @@ pub struct ProtocolParams {
     /// 2.5KB: 10 * 1024 + (10 * 1.2) * 1024 + (10 * 1.2^2) * 512 = 29900.8
     /// ...
     pub min_fee_reference_scripts: MinFeeReferenceScripts,
+    /// Base UTxO deposit (lovelace amount), added to the min_utxo_deposit_coefficient * UTxO size
+    pub min_utxo_deposit_constant: AdaBalance,
     /// Multiplied by the size of the UTxO (not the whole transaction) to get the minimum UTxO
-    /// deposit
+    /// deposit (lovelace amount)
     pub min_utxo_deposit_coefficient: u64,
     /// Price per unit of CPU and memory
     pub script_execution_prices: ExecutionUnits,
