@@ -227,7 +227,6 @@ pub enum RedeemerPurpose {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(untagged)]
 pub enum Era {
     #[serde(rename = "byron")]
     Byron,
@@ -246,7 +245,6 @@ pub enum Era {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(untagged)]
 pub enum Language {
     #[serde(rename = "plutus:v1")]
     PlutusV1,
@@ -257,7 +255,6 @@ pub enum Language {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(untagged)]
 #[serde(rename_all = "camelCase")]
 pub enum InputSource {
     Inputs,
@@ -265,7 +262,6 @@ pub enum InputSource {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(untagged)]
 #[serde(rename_all = "camelCase")]
 pub enum CredentialOrigin {
     VerificationKey,
