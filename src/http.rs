@@ -9,6 +9,7 @@ use crate::codec::{RpcRequest, RpcResponse, TxCbor};
 use crate::method::evaluate::{EvaluateRequestParams, Evaluation, EvaluationError};
 use crate::method::pparams::{ProtocolParams, ProtocolParamsError};
 use crate::method::submit::{SubmitError, SubmitRequestParams, SubmitResult};
+use crate::method::tip::{Tip, TipError};
 
 pub struct OgmiosHttpClient {
     url: Url,
@@ -97,6 +98,13 @@ impl OgmiosHttpClient {
         self.request("queryLedgerState/protocolParameters", None::<()>)
             .await
             .expect("failed to get protocol parameters")
+            .into()
+    }
+
+    pub async fn query_tip(&self) -> Result<Tip, TipError> {
+        self.request("queryLedgerState/tip", None::<()>)
+            .await
+            .expect("failed to get tip")
             .into()
     }
 }
