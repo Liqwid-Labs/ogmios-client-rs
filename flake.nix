@@ -32,20 +32,15 @@
 
         craneLib = (crane.mkLib pkgs).overrideToolchain toolchain;
 
-        unfilteredRoot = ./.; # The original, unfiltered source
+        unfilteredRoot = ./.;
         src = lib.fileset.toSource {
           root = unfilteredRoot;
-          fileset = lib.fileset.unions [
-            # Default files from crane (Rust and cargo files)
-            (craneLib.fileset.commonCargoSources unfilteredRoot)
-          ];
+          fileset = unfilteredRoot;
         };
 
         commonArgs = {
           inherit src;
           strictDeps = true;
-          # tests require live DB and SaaS blockfrost, so it requires network access
-          doCheck = false;
         };
         ogmios-client-rs = craneLib.buildPackage (
           commonArgs
