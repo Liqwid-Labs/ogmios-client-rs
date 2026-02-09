@@ -36,6 +36,9 @@ pub struct ProtocolParams {
 
     /// Percentage of the transaction fee that must be provided as collateral
     pub collateral_percentage: f64,
+
+    /// Maximum number of collateral inputs
+    pub max_collateral_inputs: u32,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -113,14 +116,9 @@ mod tests {
     fn test_protocol_params_deserialization() {
         let response = std::fs::read_to_string("tests/data/ogmios_protocol_params.json")
             .expect("ogmios response");
-        let json: serde_json::Value =
-            serde_json::from_str(&response).expect("ogmios response");
-        let result = json
-            .get("result")
-            .cloned()
-            .expect("missing result");
-        let params: ProtocolParams =
-            serde_json::from_value(result).expect("protocol params");
+        let json: serde_json::Value = serde_json::from_str(&response).expect("ogmios response");
+        let result = json.get("result").cloned().expect("missing result");
+        let params: ProtocolParams = serde_json::from_value(result).expect("protocol params");
         assert!(params.stake_credential_deposit.lovelace > 0);
     }
 }
