@@ -110,11 +110,16 @@ mod tests {
         assert!(result.is_ok());
         let summaries = result.unwrap();
         assert_eq!(summaries.len(), 1);
-        let summary = summaries.get("af71729c838c1f33529fbd5d72564468fb530febd289976b3733f448").unwrap();
+        let summary = summaries
+            .get("af71729c838c1f33529fbd5d72564468fb530febd289976b3733f448")
+            .unwrap();
         assert_eq!(summary.rewards.lovelace, 7737851);
         assert_eq!(summary.deposit.lovelace, 2000000);
         assert!(summary.delegate.is_some());
-        assert_eq!(summary.delegate.as_ref().unwrap().id, "pool1prc9hna2mgamtspchrygc66s9n4tlkvh39e3t9zccef4kzc3ns2");
+        assert_eq!(
+            summary.delegate.as_ref().unwrap().id,
+            "pool1prc9hna2mgamtspchrygc66s9n4tlkvh39e3t9zccef4kzc3ns2"
+        );
     }
 
     #[test]
@@ -132,5 +137,32 @@ mod tests {
         };
         let json = serde_json::to_string(&params).unwrap();
         assert_eq!(json, r#"{"scripts":["script1"]}"#);
+    }
+
+    #[test]
+    fn test_reward_account_summary_invalid_key_error() {
+        let json = r#"{
+            "jsonrpc": "2.0",
+            "error": {
+                "code": -32600,
+                "message": "Invalid request: Error in $.params: Unable to decode credential. It must be either a base16-encoded stake key hash or a bech32-encoded stake address, stake key hash or script hash with one of the following respective prefixes: stake, stake_vkh or script."
+            },
+            "id": null
+        }"#;
+
+        let response: RewardAccountSummariesResponse =
+            serde_json::from_str(json).expect("failed to deserialize error response");
+
+        let result: Result<HashMap<String, RewardAccountSummary>, RewardAccountSummariesError> =
+            response.into();
+
+        assert!(result.is_err());
+        match result.unwrap_err() {
+            RewardAccountSummariesError::Unknown { code, message, .. } => {
+                assert_eq!(code, -32600);
+                assert!(message.contains("Unable to decode credential"));
+            }
+            _ => panic!("Expected Unknown error variant for code -32600"),
+        }
     }
 }

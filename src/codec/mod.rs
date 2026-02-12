@@ -41,7 +41,7 @@ impl<T, E> Into<Result<T, E>> for RpcResponse<T, E> {
 #[derive(Debug, Clone, Deserialize)]
 pub struct RpcSuccess<T> {
     pub jsonrpc: String,
-    pub method: String,
+    pub method: Option<String>,
     pub result: T,
     #[serde(default)]
     pub id: Option<serde_json::Value>,
@@ -50,7 +50,7 @@ pub struct RpcSuccess<T> {
 #[derive(Debug, Clone, Deserialize)]
 pub struct RpcError<T> {
     pub jsonrpc: String,
-    pub method: String,
+    pub method: Option<String>,
     pub error: T,
     #[serde(default)]
     pub id: Option<serde_json::Value>,
