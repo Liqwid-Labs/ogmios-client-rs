@@ -1,3 +1,4 @@
+use std::collections::HashMap;
 use std::fmt;
 
 use anyhow::Context;
@@ -8,6 +9,9 @@ use serde::de::DeserializeOwned;
 use crate::codec::{RpcRequest, RpcResponse, TxCbor};
 use crate::method::evaluate::{EvaluateRequestParams, Evaluation, EvaluationError};
 use crate::method::pparams::{ProtocolParams, ProtocolParamsError};
+use crate::method::rewards::{
+    RewardAccountSummariesError, RewardAccountSummariesParams, RewardAccountSummary,
+};
 use crate::method::submit::{SubmitError, SubmitRequestParams, SubmitResult};
 use crate::method::tip::{Tip, TipError};
 
@@ -105,6 +109,18 @@ impl OgmiosHttpClient {
         self.request("queryLedgerState/tip", None::<()>)
             .await
             .expect("failed to get tip")
+            .into()
+    }
+
+    pub async fn reward_account_summaries(
+        &self,
+        keys: Option<Vec<String>>,
+        scripts: Option<Vec<String>>,
+    ) -> Result<HashMap<String, RewardAccountSummary>, RewardAccountSummariesError> {
+        let params = RewardAccountSummariesParams { keys, scripts };
+        self.request("queryLedgerState/rewardAccountSummaries", Some(params))
+            .await
+            .unwrap()
             .into()
     }
 }

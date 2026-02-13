@@ -12,6 +12,7 @@ use tokio_tungstenite::{MaybeTlsStream, WebSocketStream, connect_async};
 
 use crate::codec::{Id, RpcRequest, RpcResponseIdentifier};
 use crate::method::mempool::{AcquireMempoolResult, NextTransactionResponse};
+use crate::method::rewards::{RewardAccountSummariesParams, RewardAccountSummariesResponse};
 
 #[derive(Debug)]
 pub struct OgmiosWsClient {
@@ -109,5 +110,15 @@ impl OgmiosWsClient {
 
     pub async fn next_mempool_tx(&mut self) -> anyhow::Result<NextTransactionResponse> {
         self.request("nextTransaction", None::<()>).await
+    }
+
+    pub async fn reward_account_summaries(
+        &mut self,
+        keys: Option<Vec<String>>,
+        scripts: Option<Vec<String>>,
+    ) -> anyhow::Result<RewardAccountSummariesResponse> {
+        let params = RewardAccountSummariesParams { keys, scripts };
+        self.request("queryLedgerState/rewardAccountSummaries", Some(params))
+            .await
     }
 }
